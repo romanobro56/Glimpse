@@ -99,7 +99,7 @@ export default function MapApp() {
       <div className="pointer-events-none absolute left-4 top-4 z-[1000] flex flex-col gap-3">
         <div className="pointer-events-auto w-72 rounded-2xl border border-black/10 bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
           <h1 className="text-lg font-extrabold tracking-tight text-zinc-900">
-            🕰️ Wayback Map
+            🕰️ Glimpse
           </h1>
           <p className="text-xs text-zinc-500">
             A living map of what places used to be.

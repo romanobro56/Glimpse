@@ -1,4 +1,4 @@
-# Wayback Map — setup
+# Glimpse — setup
 
 A living map of locations and **what they used to be**, built on Next.js 16 + Clerk +
 OpenStreetMap (Leaflet) + Google Places + Supabase.

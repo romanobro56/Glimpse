@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Wayback Map — what places used to be",
+  title: "Glimpse — what places used to be",
   description:
     "A living map of memories. Drop a pin and tell the world what a place used to be.",
 };
