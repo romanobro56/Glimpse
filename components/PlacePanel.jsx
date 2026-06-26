@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Show, SignInButton } from "@clerk/nextjs";
-import Timeline from "./Timeline";
+import Timeline, { layoutTimeline } from "./Timeline";
+import TimelineSkip from "./TimelineSkip";
 import ContributeForm from "./ContributeForm";
 import { fetchJson } from "@/lib/api";
 
@@ -101,7 +102,9 @@ export default function PlacePanel({ placeId, onClose }) {
     load();
   }, [load]);
 
+  const scrollRef = useRef(null);
   const selected = data?.contributions.find((c) => c.id === selectedId) || null;
+  const layout = data ? layoutTimeline(data.contributions) : null;
 
   return (
     <aside className="absolute right-0 top-0 z-[1050] flex h-full w-[40%] min-w-[360px] flex-col border-l border-black/[0.06] bg-white shadow-lg">
@@ -149,22 +152,27 @@ export default function PlacePanel({ placeId, onClose }) {
       </div>
 
       {/* Body: timeline + detail */}
-      <div className="thin-scroll relative flex-1 overflow-y-auto px-4 py-4">
-        {loading && (
-          <p className="text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/40">
-            Loading timeline…
-          </p>
-        )}
-        {error && <p className="text-[13px] text-rose-600">{error}</p>}
-        {!loading && !error && data && (
-          <div className="flex">
-            <Timeline
-              contributions={data.contributions}
-              selectedId={selectedId}
-              onSelect={setSelectedId}
-            />
-            <Detail contribution={selected} />
-          </div>
+      <div className="relative flex-1 overflow-hidden">
+        <div className="thin-scroll h-full overflow-y-auto px-4 py-4" ref={scrollRef}>
+          {loading && (
+            <p className="text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/40">
+              Loading timeline…
+            </p>
+          )}
+          {error && <p className="text-[13px] text-rose-600">{error}</p>}
+          {!loading && !error && data && (
+            <div className="flex">
+              <Timeline
+                contributions={data.contributions}
+                selectedId={selectedId}
+                onSelect={setSelectedId}
+              />
+              <Detail contribution={selected} />
+            </div>
+          )}
+        </div>
+        {layout && layout.items.length > 1 && (
+          <TimelineSkip scrollRef={scrollRef} items={layout.items} />
         )}
       </div>
 

@@ -99,7 +99,7 @@ export default function ContributeForm({ placeId, placeName, onClose, onCreated 
 
           <div>
             <label className="mb-1 block text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground/40">
-              What was it? <span className="normal-case font-normal text-foreground/25">(optional title)</span>
+              What was it at the time? <span className="normal-case font-normal text-foreground/25">(optional title)</span>
             </label>
             <input
               type="text"

@@ -2,7 +2,7 @@
 
 export default function NearbyStack({ loading, places, onSelect, onClose, error }) {
   return (
-    <div className="absolute right-4 top-4 z-[1000] w-80 max-w-[calc(100vw-2rem)]">
+    <div className="absolute right-4 top-[72px] z-[1000] w-80 max-w-[calc(100vw-2rem)]">
       <div className="overflow-hidden rounded-xl border border-black/[0.06] bg-white/95 shadow-sm backdrop-blur">
         <div className="flex items-center justify-between border-b border-black/[0.04] px-5 py-4">
           <div>

@@ -5,7 +5,11 @@ import { clerkMiddleware } from "@clerk/nextjs/server";
 // (POST /api/places, POST /api/contributions) via `auth()`. We still run
 // clerkMiddleware so that auth context is available to those handlers and
 // to server components.
-export default clerkMiddleware();
+const clerk = clerkMiddleware();
+
+export default function proxy(request, event) {
+  return clerk(request, event);
+}
 
 export const config = {
   matcher: [
