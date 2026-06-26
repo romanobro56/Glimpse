@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import MapView from "./MapView";
 import NearbyStack from "./NearbyStack";
+import SearchBar from "./SearchBar";
 import PlacePanel from "./PlacePanel";
+import Walkthrough from "./Walkthrough";
 import { fetchJson } from "@/lib/api";
 
 const DEFAULT_CENTER = [40.758, -73.9855]; // Times Square
@@ -17,6 +19,7 @@ export default function MapApp() {
   const [nearby, setNearby] = useState(null); // { loading, places, error }
   const [selectedPlaceId, setSelectedPlaceId] = useState(null);
   const [creating, setCreating] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
 
   // Load all existing places for the map dots.
   useEffect(() => {
@@ -95,35 +98,52 @@ export default function MapApp() {
         center={center}
       />
 
-      {/* Brand + auth — top left */}
-      <div className="pointer-events-none absolute left-4 top-4 z-[1000] flex flex-col gap-3">
-        <div className="pointer-events-auto w-64 rounded-xl border border-black/[0.06] bg-white/95 px-5 py-4 shadow-sm backdrop-blur">
+      {/* Brand — top left */}
+      <div className="absolute left-4 top-4 z-[1000]">
+        <div className="rounded-xl border border-black/[0.06] bg-white/95 px-5 py-4 shadow-sm backdrop-blur">
           <h1 className="font-serif text-[26px] font-normal leading-tight tracking-[-0.04em] text-foreground">
             Glimpse
           </h1>
           <p className="mt-0.5 text-[13px] font-medium uppercase leading-tight tracking-[-0.04em] text-foreground/40">
             What places used to be
           </p>
-          <div className="mt-4 flex items-center gap-2">
-            <Show when="signed-out">
-              <SignInButton mode="modal">
-                <button className="rounded-full border border-foreground/15 px-4 py-1.5 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/60 transition-opacity hover:text-foreground">
-                  Sign in
-                </button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <button className="rounded-full bg-primary px-4 py-1.5 text-[13px] font-medium uppercase tracking-[-0.03em] text-white transition-colors hover:bg-primary-hover">
-                  Sign up
-                </button>
-              </SignUpButton>
-            </Show>
-            <Show when="signed-in">
-              <UserButton afterSignOutUrl="/" />
-              <span className="text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/40">
-                Signed in
-              </span>
-            </Show>
-          </div>
+        </div>
+      </div>
+
+      {/* Search — top center */}
+      <div className="absolute left-1/2 top-4 z-[1000] -translate-x-1/2">
+        <SearchBar
+          active={showSearch}
+          onActivate={() => setShowSearch(true)}
+          onSelect={(place) => {
+            setShowSearch(false);
+            handleSelectNearby(place);
+          }}
+          onClose={() => setShowSearch(false)}
+        />
+      </div>
+
+      {/* Account — top right */}
+      <div className="absolute right-4 top-4 z-[1000]">
+        <div className="flex items-center gap-2 rounded-xl border border-black/[0.06] bg-white/95 px-4 py-3 shadow-sm backdrop-blur">
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button className="rounded-full border border-foreground/15 px-4 py-1.5 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/60 transition-opacity hover:text-foreground">
+                Sign in
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button className="rounded-full bg-primary px-4 py-1.5 text-[13px] font-medium uppercase tracking-[-0.03em] text-white transition-colors hover:bg-primary-hover">
+                Sign up
+              </button>
+            </SignUpButton>
+          </Show>
+          <Show when="signed-in">
+            <UserButton afterSignOutUrl="/" />
+            <span className="text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/40">
+              Signed in
+            </span>
+          </Show>
         </div>
       </div>
 
@@ -179,6 +199,8 @@ export default function MapApp() {
           onClose={() => setSelectedPlaceId(null)}
         />
       )}
+
+      <Walkthrough />
     </div>
   );
 }
