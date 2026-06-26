@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: #faf9f7;
+  --color-foreground: #1a1a1a;
+  --color-primary: #77cff6;
+  --color-primary-hover: #5cbee8;
+  --color-secondary: #bf774a;
+  --color-accent: #fbed42;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif);
 }
 
 html,
@@ -18,32 +18,33 @@ body {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  letter-spacing: -0.03em;
 }
 
 /* Leaflet map fills its container */
 .leaflet-container {
   width: 100%;
   height: 100%;
-  background: #aadaff;
+  background: #d4e8f0;
   font-family: inherit;
 }
 
 /* Map dot markers */
 .place-dot {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   border-radius: 9999px;
-  background: #2563eb;
-  border: 3px solid #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  background: var(--color-primary);
+  border: 2.5px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-  transition: transform 0.12s ease;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .place-dot:hover {
-  transform: scale(1.25);
+  transform: scale(1.3);
 }
 
 /* Crosshair while in pin-drop mode */
@@ -54,9 +55,12 @@ body {
 
 /* Thin scrollbars inside panels */
 .thin-scroll::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 .thin-scroll::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.18);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 9999px;
+}
+.thin-scroll::-webkit-scrollbar-track {
+  background: transparent;
 }

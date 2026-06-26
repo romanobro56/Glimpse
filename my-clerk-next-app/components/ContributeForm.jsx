@@ -6,7 +6,6 @@ import { fetchJson } from "@/lib/api";
 const MAX_BODY = 10000;
 const MAX_IMAGES = 5;
 
-// Yesterday, as YYYY-MM-DD — the latest allowed memory date (today is "now").
 function yesterdayISO() {
   const d = new Date();
   d.setDate(d.getDate() - 1);
@@ -60,18 +59,20 @@ export default function ContributeForm({ placeId, placeName, onClose, onCreated 
   }
 
   return (
-    <div className="absolute inset-0 z-[1100] flex items-center justify-center bg-black/40 p-4">
-      <div className="thin-scroll max-h-full w-full max-w-lg overflow-y-auto rounded-2xl bg-white shadow-2xl">
-        <div className="flex items-start justify-between border-b border-black/5 px-5 py-4">
+    <div className="absolute inset-0 z-[1100] flex items-center justify-center bg-black/25 p-4">
+      <div className="thin-scroll max-h-full w-full max-w-lg overflow-y-auto rounded-xl bg-white shadow-lg">
+        <div className="flex items-start justify-between border-b border-black/[0.04] px-5 py-4">
           <div>
-            <h3 className="text-base font-semibold text-zinc-900">Add a memory</h3>
-            <p className="text-xs text-zinc-500">
-              What did <span className="font-medium">{placeName}</span> used to be?
+            <h3 className="font-serif text-xl leading-tight tracking-[-0.02em] text-foreground">
+              Add a memory
+            </h3>
+            <p className="mt-0.5 text-[13px] font-medium uppercase tracking-[-0.04em] text-foreground/40">
+              What did <span className="normal-case text-foreground/60">{placeName}</span> used to be?
             </p>
           </div>
           <button
             onClick={onClose}
-            className="rounded-full p-1 text-zinc-400 hover:bg-black/5 hover:text-zinc-700"
+            className="rounded-full p-1 text-foreground/30 transition-opacity hover:text-foreground/70"
             aria-label="Close"
           >
             ✕
@@ -80,7 +81,7 @@ export default function ContributeForm({ placeId, placeName, onClose, onCreated 
 
         <form onSubmit={handleSubmit} className="space-y-4 px-5 py-4">
           <div>
-            <label className="mb-1 block text-xs font-medium text-zinc-700">
+            <label className="mb-1 block text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground/40">
               Date of this memory
             </label>
             <input
@@ -88,29 +89,29 @@ export default function ContributeForm({ placeId, placeName, onClose, onCreated 
               value={date}
               max={max}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full rounded-lg border border-foreground/10 bg-white px-3 py-2 text-[14px] tracking-[-0.02em] text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               required
             />
-            <p className="mt-1 text-[11px] text-zinc-400">
+            <p className="mt-1 text-[11px] tracking-[-0.02em] text-foreground/30">
               Must be in the past — the present is reserved for what&apos;s here now.
             </p>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-zinc-700">
-              What was it? <span className="font-normal text-zinc-400">(optional title)</span>
+            <label className="mb-1 block text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground/40">
+              What was it? <span className="normal-case font-normal text-foreground/25">(optional title)</span>
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="e.g. Tower Records"
-              className="w-full rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full rounded-lg border border-foreground/10 bg-white px-3 py-2 text-[14px] tracking-[-0.02em] text-foreground placeholder:text-foreground/25 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-zinc-700">
+            <label className="mb-1 block text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground/40">
               Your memory
             </label>
             <textarea
@@ -118,21 +119,21 @@ export default function ContributeForm({ placeId, placeName, onClose, onCreated 
               onChange={(e) => setBody(e.target.value.slice(0, MAX_BODY))}
               rows={5}
               placeholder="Describe what this place used to be, or a memory you have of it…"
-              className="w-full resize-y rounded-lg border border-zinc-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full resize-y rounded-lg border border-foreground/10 bg-white px-3 py-2 text-[14px] tracking-[-0.02em] text-foreground placeholder:text-foreground/25 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             />
-            <div className="mt-1 text-right text-[11px] text-zinc-400">
+            <div className="mt-1 text-right text-[11px] tracking-[-0.02em] text-foreground/25">
               {body.length.toLocaleString()} / {MAX_BODY.toLocaleString()}
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium text-zinc-700">
-              Photos <span className="font-normal text-zinc-400">(up to {MAX_IMAGES})</span>
+            <label className="mb-1 block text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground/40">
+              Photos <span className="normal-case font-normal text-foreground/25">(up to {MAX_IMAGES})</span>
             </label>
             {files.length > 0 && (
               <div className="mb-2 grid grid-cols-3 gap-2">
                 {files.map((f, i) => (
-                  <div key={i} className="group relative aspect-square overflow-hidden rounded-lg border border-zinc-200">
+                  <div key={i} className="group relative aspect-square overflow-hidden rounded-lg border border-foreground/[0.06]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={URL.createObjectURL(f)}
@@ -157,25 +158,25 @@ export default function ContributeForm({ placeId, placeName, onClose, onCreated 
                 accept="image/*"
                 multiple
                 onChange={onPickFiles}
-                className="block w-full text-xs text-zinc-600 file:mr-3 file:rounded-full file:border-0 file:bg-blue-50 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-blue-700 hover:file:bg-blue-100"
+                className="block w-full text-[12px] tracking-[-0.02em] text-foreground/50 file:mr-3 file:rounded-full file:border-0 file:bg-primary/10 file:px-3 file:py-1.5 file:text-[12px] file:font-medium file:text-primary hover:file:bg-primary/20"
               />
             )}
           </div>
 
-          {error && <p className="text-sm text-rose-600">{error}</p>}
+          {error && <p className="text-[13px] text-rose-600">{error}</p>}
 
           <div className="flex justify-end gap-2 pt-1">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full px-4 py-2 text-sm font-medium text-zinc-600 hover:bg-black/5"
+              className="rounded-full px-4 py-2 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/40 transition-opacity hover:text-foreground/70"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:opacity-60"
+              className="rounded-full bg-primary px-5 py-2 text-[13px] font-medium uppercase tracking-[-0.03em] text-white transition-colors hover:bg-primary-hover disabled:opacity-50"
             >
               {submitting ? "Posting…" : "Post memory"}
             </button>

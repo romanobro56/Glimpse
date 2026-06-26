@@ -11,12 +11,12 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Blue dot for an existing place on the map.
+// Copper dot for an existing place on the map.
 const dotIcon = L.divIcon({
   className: "",
   html: '<div class="place-dot"></div>',
-  iconSize: [18, 18],
-  iconAnchor: [9, 9],
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
 });
 
 // Pin marker for the spot the user just clicked while dropping a pin.
@@ -24,7 +24,7 @@ const pinIcon = L.divIcon({
   className: "",
   html: `<div style="position:relative;width:30px;height:42px;">
     <svg width="30" height="42" viewBox="0 0 30 42" xmlns="http://www.w3.org/2000/svg">
-      <path d="M15 0C6.7 0 0 6.7 0 15c0 11 15 27 15 27s15-16 15-27C30 6.7 23.3 0 15 0z" fill="#e11d48"/>
+      <path d="M15 0C6.7 0 0 6.7 0 15c0 11 15 27 15 27s15-16 15-27C30 6.7 23.3 0 15 0z" fill="#bf774a"/>
       <circle cx="15" cy="15" r="6" fill="#fff"/>
     </svg>
   </div>`,

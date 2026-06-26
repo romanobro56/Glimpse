@@ -1,10 +1,10 @@
 "use client";
 
 const MS_DAY = 86400000;
-const TOP = 70; // px before the first (most recent) dot
-const MIN_GAP = 116; // min px between consecutive dots (no overlap + padding)
-const PX_PER_DAY = 0.45; // proportional spacing: older memories sit further down
-const TAIL = 460; // px the line continues past the oldest dot, off-screen
+const TOP = 70;
+const MIN_GAP = 116;
+const PX_PER_DAY = 0.45;
+const TAIL = 460;
 
 function fmtDate(iso) {
   const d = new Date(iso + "T00:00:00");
@@ -15,8 +15,6 @@ function fmtDate(iso) {
   });
 }
 
-// Lays out contributions vertically, scaled to elapsed time but with a minimum
-// gap so dots never overlap. Returns each item with its `y` pixel offset.
 export function layoutTimeline(contributions) {
   if (contributions.length === 0) return { items: [], totalHeight: TOP + TAIL };
   const ref = new Date(contributions[0].memory_date + "T00:00:00").getTime();
@@ -37,7 +35,7 @@ export default function Timeline({ contributions, selectedId, onSelect }) {
 
   return (
     <div className="relative shrink-0" style={{ width: 150, height: totalHeight }}>
-      {/* The line — extends past the oldest dot and fades off-screen */}
+      {/* The line — copper gradient fading out */}
       <div
         className="absolute w-[2px]"
         style={{
@@ -45,7 +43,7 @@ export default function Timeline({ contributions, selectedId, onSelect }) {
           top: 12,
           height: totalHeight - 12,
           background:
-            "linear-gradient(to bottom, #93c5fd 0%, #93c5fd 70%, rgba(147,197,253,0) 100%)",
+            "linear-gradient(to bottom, #77cff6 0%, #77cff6 70%, rgba(119,207,246,0) 100%)",
         }}
       />
 
@@ -56,12 +54,12 @@ export default function Timeline({ contributions, selectedId, onSelect }) {
             <button
               onClick={() => onSelect(c.id)}
               className={[
-                "relative flex h-9 w-9 items-center justify-center rounded-full border-2 text-xs font-bold transition-all",
+                "relative flex h-9 w-9 items-center justify-center rounded-full border-2 text-[11px] font-bold transition-all",
                 selected
-                  ? "scale-110 border-blue-600 bg-blue-600 text-white shadow-lg"
+                  ? "scale-110 border-primary bg-primary text-foreground shadow-md"
                   : c.is_current
-                  ? "border-emerald-500 bg-white text-emerald-600 hover:bg-emerald-50"
-                  : "border-blue-400 bg-white text-blue-600 hover:bg-blue-50",
+                  ? "border-primary/60 bg-primary/20 text-foreground hover:bg-primary/30"
+                  : "border-primary/40 bg-primary/10 text-foreground hover:bg-primary/25",
               ].join(" ")}
               style={{ marginLeft: lineX - 18 + 2 }}
               title={fmtDate(c.memory_date)}
@@ -69,14 +67,14 @@ export default function Timeline({ contributions, selectedId, onSelect }) {
               {c.index}
             </button>
             <div
-              className="pointer-events-none absolute whitespace-nowrap text-[11px] leading-tight"
+              className="pointer-events-none absolute whitespace-nowrap text-[11px] leading-tight tracking-[-0.03em]"
               style={{ left: lineX + 26, top: "50%", transform: "translateY(-50%)" }}
             >
-              <div className="font-semibold text-zinc-700">
+              <div className="font-medium text-foreground/70">
                 {c.is_current ? "Now" : fmtDate(c.memory_date)}
               </div>
               {!c.is_current && (
-                <div className="text-zinc-400">{new Date(c.memory_date + "T00:00:00").getFullYear()}</div>
+                <div className="text-foreground/30">{new Date(c.memory_date + "T00:00:00").getFullYear()}</div>
               )}
             </div>
           </div>

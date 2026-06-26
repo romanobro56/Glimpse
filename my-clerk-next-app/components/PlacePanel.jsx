@@ -19,24 +19,24 @@ function Detail({ contribution }) {
   const c = contribution;
   return (
     <div className="sticky top-0 ml-2 flex-1 self-start pb-10">
-      <div className="rounded-2xl border border-black/5 bg-zinc-50 p-5">
+      <div className="rounded-xl border border-black/[0.04] bg-background p-5">
         <div className="mb-2 flex items-center gap-2">
           <span
-            className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white ${
-              c.is_current ? "bg-emerald-500" : "bg-blue-600"
+            className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-bold text-white ${
+              c.is_current ? "bg-secondary" : "bg-primary"
             }`}
           >
             {c.index}
           </span>
-          <span className="text-sm font-semibold text-zinc-900">
+          <span className="text-[13px] font-medium tracking-[-0.03em] text-foreground">
             {c.is_current ? "Here today" : fmtFull(c.memory_date)}
           </span>
         </div>
 
         {c.title && (
-          <h4 className="text-lg font-bold leading-tight text-zinc-900">{c.title}</h4>
+          <h4 className="font-serif text-xl leading-tight tracking-[-0.02em] text-foreground">{c.title}</h4>
         )}
-        <p className="mt-0.5 text-xs text-zinc-500">
+        <p className="mt-1 text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground/40">
           {c.is_current ? "Current establishment (from Google)" : `Shared by ${c.author_name}`}
         </p>
 
@@ -56,13 +56,13 @@ function Detail({ contribution }) {
         )}
 
         {c.body && (
-          <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-zinc-700">
+          <p className="mt-3 whitespace-pre-wrap text-[14px] leading-relaxed tracking-[-0.02em] text-foreground/70">
             {c.body}
           </p>
         )}
 
         {c.is_current && !c.body && (
-          <p className="mt-3 text-sm text-zinc-500">
+          <p className="mt-3 text-[14px] tracking-[-0.02em] text-foreground/40">
             This is what&apos;s here now. Scroll the timeline to travel back — or add a
             memory of what used to be.
           </p>
@@ -104,20 +104,22 @@ export default function PlacePanel({ placeId, onClose }) {
   const selected = data?.contributions.find((c) => c.id === selectedId) || null;
 
   return (
-    <aside className="absolute right-0 top-0 z-[1050] flex h-full w-[40%] min-w-[360px] flex-col border-l border-black/10 bg-white shadow-2xl">
+    <aside className="absolute right-0 top-0 z-[1050] flex h-full w-[40%] min-w-[360px] flex-col border-l border-black/[0.06] bg-white shadow-lg">
       {/* Header */}
-      <div className="flex items-start justify-between gap-3 border-b border-black/10 px-5 py-4">
+      <div className="flex items-start justify-between gap-3 border-b border-black/[0.06] px-5 py-4">
         <div className="min-w-0">
-          <h2 className="truncate text-lg font-bold text-zinc-900">
+          <h2 className="truncate font-serif text-[26px] leading-tight tracking-[-0.04em] text-foreground">
             {data?.place?.name || (loading ? "Loading…" : "Place")}
           </h2>
           {data?.place?.address && (
-            <p className="truncate text-xs text-zinc-500">{data.place.address}</p>
+            <p className="mt-0.5 truncate text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground/40">
+              {data.place.address}
+            </p>
           )}
         </div>
         <button
           onClick={onClose}
-          className="shrink-0 rounded-full p-1.5 text-zinc-400 hover:bg-black/5 hover:text-zinc-700"
+          className="shrink-0 rounded-full p-1.5 text-foreground/30 transition-opacity hover:text-foreground/70"
           aria-label="Close"
         >
           ✕
@@ -125,21 +127,21 @@ export default function PlacePanel({ placeId, onClose }) {
       </div>
 
       {/* Action bar */}
-      <div className="flex items-center justify-between border-b border-black/5 px-5 py-2.5">
-        <p className="text-xs text-zinc-500">
+      <div className="flex items-center justify-between border-b border-black/[0.04] px-5 py-2.5">
+        <p className="text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground/40">
           {data ? `${data.contributions.length} moment${data.contributions.length === 1 ? "" : "s"} in time` : ""}
         </p>
         <Show when="signed-in">
           <button
             onClick={() => setShowForm(true)}
-            className="rounded-full bg-blue-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-blue-700"
+            className="rounded-full bg-secondary px-4 py-1.5 text-[12px] font-medium uppercase tracking-[-0.02em] text-foreground transition-colors hover:bg-secondary/80"
           >
             + Add a memory
           </button>
         </Show>
         <Show when="signed-out">
           <SignInButton mode="modal">
-            <button className="rounded-full border border-blue-600 px-4 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-50">
+            <button className="rounded-full border border-primary/30 px-4 py-1.5 text-[12px] font-medium uppercase tracking-[-0.02em] text-primary transition-opacity hover:border-primary/60">
               Sign in to contribute
             </button>
           </SignInButton>
@@ -148,8 +150,12 @@ export default function PlacePanel({ placeId, onClose }) {
 
       {/* Body: timeline + detail */}
       <div className="thin-scroll relative flex-1 overflow-y-auto px-4 py-4">
-        {loading && <p className="text-sm text-zinc-500">Loading timeline…</p>}
-        {error && <p className="text-sm text-rose-600">{error}</p>}
+        {loading && (
+          <p className="text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/40">
+            Loading timeline…
+          </p>
+        )}
+        {error && <p className="text-[13px] text-rose-600">{error}</p>}
         {!loading && !error && data && (
           <div className="flex">
             <Timeline

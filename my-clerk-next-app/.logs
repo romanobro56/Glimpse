@@ -1,0 +1,16 @@
+
+> my-clerk-next-app@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.197:3000
+- Environments: .env.local
+✓ Ready in 319ms
+
+Attention: Clerk collects telemetry data from its SDKs when connected to development instances.
+The data collected is used to inform Clerk's product roadmap.
+To learn more, including how to opt-out from the telemetry program, visit: https://clerk.com/docs/telemetry.
+
+ GET / 500 in 325ms (next.js: 66ms, proxy.ts: 161ms, application-code: 98ms)
+[?25h

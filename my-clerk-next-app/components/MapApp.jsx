@@ -95,31 +95,33 @@ export default function MapApp() {
         center={center}
       />
 
-      {/* Brand + auth — top left so it never collides with the panel or stack */}
+      {/* Brand + auth — top left */}
       <div className="pointer-events-none absolute left-4 top-4 z-[1000] flex flex-col gap-3">
-        <div className="pointer-events-auto w-72 rounded-2xl border border-black/10 bg-white/95 px-4 py-3 shadow-lg backdrop-blur">
-          <h1 className="text-lg font-extrabold tracking-tight text-zinc-900">
-            🕰️ Glimpse
+        <div className="pointer-events-auto w-64 rounded-xl border border-black/[0.06] bg-white/95 px-5 py-4 shadow-sm backdrop-blur">
+          <h1 className="font-serif text-[26px] font-normal leading-tight tracking-[-0.04em] text-foreground">
+            Glimpse
           </h1>
-          <p className="text-xs text-zinc-500">
-            A living map of what places used to be.
+          <p className="mt-0.5 text-[13px] font-medium uppercase leading-tight tracking-[-0.04em] text-foreground/40">
+            What places used to be
           </p>
-          <div className="mt-3 flex items-center gap-2">
+          <div className="mt-4 flex items-center gap-2">
             <Show when="signed-out">
               <SignInButton mode="modal">
-                <button className="rounded-full border border-zinc-300 px-4 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50">
+                <button className="rounded-full border border-foreground/15 px-4 py-1.5 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/60 transition-opacity hover:text-foreground">
                   Sign in
                 </button>
               </SignInButton>
               <SignUpButton mode="modal">
-                <button className="rounded-full bg-blue-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-blue-700">
+                <button className="rounded-full bg-primary px-4 py-1.5 text-[13px] font-medium uppercase tracking-[-0.03em] text-white transition-colors hover:bg-primary-hover">
                   Sign up
                 </button>
               </SignUpButton>
             </Show>
             <Show when="signed-in">
               <UserButton afterSignOutUrl="/" />
-              <span className="text-sm text-zinc-600">You&apos;re signed in</span>
+              <span className="text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/40">
+                Signed in
+              </span>
             </Show>
           </div>
         </div>
@@ -131,31 +133,31 @@ export default function MapApp() {
           {dropMode ? (
             <button
               onClick={closeNearby}
-              className="rounded-full bg-rose-600 px-6 py-3 text-sm font-semibold text-white shadow-xl hover:bg-rose-700"
+              className="rounded-full bg-foreground/80 px-6 py-3 text-[13px] font-medium uppercase tracking-[-0.03em] text-white shadow-lg transition-colors hover:bg-foreground"
             >
               Click a spot on the map — or cancel
             </button>
           ) : (
             <button
               onClick={() => setDropMode(true)}
-              className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-xl hover:bg-blue-700"
+              className="rounded-full bg-secondary px-6 py-3 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground shadow-lg transition-colors hover:bg-secondary/80"
             >
-              📍 Drop a pin to add a memory
+              Drop a pin to add a memory
             </button>
           )}
         </Show>
         <Show when="signed-out">
           <SignInButton mode="modal">
-            <button className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-xl hover:bg-blue-700">
-              📍 Sign in to contribute
+            <button className="rounded-full bg-secondary px-6 py-3 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground shadow-lg transition-colors hover:bg-secondary/80">
+              Sign in to contribute
             </button>
           </SignInButton>
         </Show>
       </div>
 
       {creating && (
-        <div className="absolute inset-0 z-[1200] flex items-center justify-center bg-black/20">
-          <div className="rounded-xl bg-white px-5 py-3 text-sm font-medium text-zinc-700 shadow-xl">
+        <div className="absolute inset-0 z-[1200] flex items-center justify-center bg-black/15">
+          <div className="rounded-xl bg-white px-5 py-3 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/60 shadow-lg">
             Adding place…
           </div>
         </div>
