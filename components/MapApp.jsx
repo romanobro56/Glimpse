@@ -98,20 +98,32 @@ export default function MapApp() {
         center={center}
       />
 
-      {/* Brand — top left */}
-      <div className="absolute left-4 top-4 z-[1000]">
-        <div className="rounded-xl border border-black/[0.06] bg-white/95 px-5 py-4 shadow-sm backdrop-blur">
-          <h1 className="font-serif text-[26px] font-normal leading-tight tracking-[-0.04em] text-foreground">
-            Glimpse
-          </h1>
-          <p className="mt-0.5 text-[13px] font-medium uppercase leading-tight tracking-[-0.04em] text-foreground/40">
-            What places used to be
-          </p>
-        </div>
+
+      {/* Mobile: search + account row, centered vertically */}
+      <div className="absolute right-4 top-4 z-[1000] flex items-center gap-3 sm:hidden">
+        <SearchBar
+          active={showSearch}
+          onActivate={() => setShowSearch(true)}
+          onSelect={(place) => {
+            setShowSearch(false);
+            handleSelectNearby(place);
+          }}
+          onClose={() => setShowSearch(false)}
+        />
+        <Show when="signed-out">
+          <SignInButton mode="modal">
+            <button className="rounded-full border border-black/[0.06] bg-white/95 px-4 py-1.5 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/60 shadow-sm backdrop-blur transition-opacity hover:text-foreground">
+              Sign in
+            </button>
+          </SignInButton>
+        </Show>
+        <Show when="signed-in">
+          <UserButton afterSignOutUrl="/" />
+        </Show>
       </div>
 
-      {/* Search — top center */}
-      <div className="absolute left-1/2 top-4 z-[1000] -translate-x-1/2">
+      {/* Desktop: search — top center */}
+      <div className="absolute left-1/2 top-4 z-[1000] hidden -translate-x-1/2 sm:block">
         <SearchBar
           active={showSearch}
           onActivate={() => setShowSearch(true)}
@@ -123,10 +135,10 @@ export default function MapApp() {
         />
       </div>
 
-      {/* Account — top right */}
-      <div className="absolute right-4 top-4 z-[1000]">
-        <div className="flex items-center gap-2 rounded-xl border border-black/[0.06] bg-white/95 px-4 py-3 shadow-sm backdrop-blur">
-          <Show when="signed-out">
+      {/* Desktop: account — top right */}
+      <div className="absolute right-4 top-4 z-[1000] hidden sm:block">
+        <Show when="signed-out">
+          <div className="flex items-center gap-2 rounded-xl border border-black/[0.06] bg-white/95 px-4 py-3 shadow-sm backdrop-blur">
             <SignInButton mode="modal">
               <button className="rounded-full border border-foreground/15 px-4 py-1.5 text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/60 transition-opacity hover:text-foreground">
                 Sign in
@@ -137,14 +149,16 @@ export default function MapApp() {
                 Sign up
               </button>
             </SignUpButton>
-          </Show>
-          <Show when="signed-in">
+          </div>
+        </Show>
+        <Show when="signed-in">
+          <div className="flex items-center gap-2 rounded-xl border border-black/[0.06] bg-white/95 px-4 py-3 shadow-sm backdrop-blur">
             <UserButton afterSignOutUrl="/" />
             <span className="text-[13px] font-medium uppercase tracking-[-0.03em] text-foreground/40">
               Signed in
             </span>
-          </Show>
-        </div>
+          </div>
+        </Show>
       </div>
 
       {/* Pin-drop control — bottom center */}
@@ -199,6 +213,28 @@ export default function MapApp() {
           onClose={() => setSelectedPlaceId(null)}
         />
       )}
+
+      {/* Brand — bottom right */}
+      <a
+        href="https://github.com/romanobro56/Glimpse/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute bottom-6 right-4 z-[1000] rounded-xl border border-black/[0.06] bg-white/95 shadow-sm backdrop-blur transition-opacity hover:opacity-80"
+      >
+        {/* Mobile: just "g" */}
+        <span className="block px-3.5 py-2.5 font-serif text-[22px] font-normal leading-tight tracking-[-0.04em] text-foreground sm:hidden">
+          g
+        </span>
+        {/* Desktop: full name */}
+        <span className="hidden px-5 py-4 sm:block">
+          <span className="block font-serif text-[26px] font-normal leading-tight tracking-[-0.04em] text-foreground">
+            Glimpse
+          </span>
+          <span className="mt-0.5 block text-[13px] font-medium uppercase leading-tight tracking-[-0.04em] text-foreground/40">
+            What places used to be
+          </span>
+        </span>
+      </a>
 
       <Walkthrough />
     </div>

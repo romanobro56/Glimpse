@@ -64,8 +64,10 @@ export default function MapView({
     <div className={`h-full w-full ${dropMode ? "drop-cursor" : ""}`}>
       <MapContainer center={center} zoom={13} scrollWheelZoom className="h-full w-full">
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url={`https://tile.jawg.io/jawg-lagoon/{z}/{x}/{y}{r}.png?access-token=${process.env.NEXT_PUBLIC_JAWG_TOKEN}`}
+          minZoom={0}
+          maxZoom={22}
         />
         <ClickHandler onMapClick={onMapClick} />
         <ResizeOnLayout trigger={panelOpen} />

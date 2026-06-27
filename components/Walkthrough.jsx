@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SignUpButton } from "@clerk/nextjs";
 
 const STORAGE_KEY = "glimpse_walkthrough_seen";
@@ -20,19 +20,17 @@ const steps = [
   },
 ];
 
-export default function Walkthrough() {
-  const [visible, setVisible] = useState(false);
-  const [step, setStep] = useState(0);
+function shouldShow() {
+  try {
+    return !localStorage.getItem(STORAGE_KEY);
+  } catch {
+    return false; // localStorage blocked — skip walkthrough
+  }
+}
 
-  useEffect(() => {
-    try {
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        setVisible(true);
-      }
-    } catch {
-      // localStorage blocked — skip walkthrough
-    }
-  }, []);
+export default function Walkthrough() {
+  const [visible, setVisible] = useState(shouldShow);
+  const [step, setStep] = useState(0);
 
   function dismiss() {
     setVisible(false);
