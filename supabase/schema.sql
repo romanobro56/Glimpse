@@ -40,3 +40,22 @@ create index if not exists contributions_memory_date_idx on contributions(memory
 insert into storage.buckets (id, name, public)
 values ('contributions', 'contributions', true)
 on conflict (id) do nothing;
+
+-- ─── Row Level Security ───────────────────────────────────────────────
+-- Enable RLS on both tables
+ALTER TABLE places ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contributions ENABLE ROW LEVEL SECURITY;
+
+-- Allow anyone to READ places and contributions (GET routes are public)
+CREATE POLICY "Public read access for places"
+  ON places FOR SELECT
+  USING (true);
+
+CREATE POLICY "Public read access for contributions"
+  ON contributions FOR SELECT
+  USING (true);
+
+-- Storage: allow public reads on the contributions bucket
+CREATE POLICY "Public read access for contribution images"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'contributions');
